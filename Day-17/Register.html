@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #e9ecef; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .container { background: white; padding: 25px; border-radius: 10px; width: 320px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .msg { font-size: 14px; margin-top: 10px; }
+    .error { color: red; }
+    .success { color: green; }
+    .link { background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Register</h2>
+    <input type="text" id="regName" placeholder="Name">
+    <input type="email" id="regEmail" placeholder="Email">
+    <input type="password" id="regPassword" placeholder="Password">
+    <button onclick="registerUser()">Register</button>
+    <p class="msg" id="regMsg"></p>
+    <button class="link" onclick="location.href='login.html'">Already have an account? Login</button>
+  </div>
+
+  <script>
+    function registerUser() {
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const msg = document.getElementById('regMsg');
+      msg.textContent = '';
+      msg.className = 'msg';
+
+      if (!name || !email || !password) {
+        msg.textContent = 'All fields are required.';
+        msg.classList.add('error');
+        return;
+      }
+
+      if (localStorage.getItem(email)) {
+        msg.textContent = 'User already exists.';
+        msg.classList.add('error');
+        return;
+      }
+
+      const user = { name, email, password };
+      localStorage.setItem(email, JSON.stringify(user));
+      msg.textContent = 'Registration successful!';
+      msg.classList.add('success');
+
+      setTimeout(() => {
+        location.href = 'login.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

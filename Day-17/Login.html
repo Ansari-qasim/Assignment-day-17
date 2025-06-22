@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #e9ecef; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .container { background: white; padding: 25px; border-radius: 10px; width: 320px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .msg { font-size: 14px; margin-top: 10px; }
+    .error { color: red; }
+    .success { color: green; }
+    .link { background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="loginUser()">Login</button>
+    <p class="msg" id="loginMsg"></p>
+    <button class="link" onclick="location.href='register.html'">Don't have an account? Register</button>
+  </div>
+
+  <script>
+    function loginUser() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const msg = document.getElementById('loginMsg');
+      msg.textContent = '';
+      msg.className = 'msg';
+
+      const userData = localStorage.getItem(email);
+
+      if (!userData) {
+        msg.textContent = 'User not found.';
+        msg.classList.add('error');
+        return;
+      }
+
+      const user = JSON.parse(userData);
+
+      if (user.password !== password) {
+        msg.textContent = 'Incorrect password.';
+        msg.classList.add('error');
+        return;
+      }
+
+      sessionStorage.setItem("loggedInUser", user.name);
+      location.href = 'welcome.html';
+    }
+  </script>
+</body>
+</html>
